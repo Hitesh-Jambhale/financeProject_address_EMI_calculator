@@ -1,0 +1,174 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <title>EMI-Calculator</title>
+{% endblock %}
+
+{% block content %}
+    <div class="emi-holder">
+        <div class="calculator card">
+            <div class="container" style="width:40;">
+                <form id="loan-form" class="jumbotron">
+                    <label for="loan">My loan requirement is :</label>
+                    <div class="row">
+                        <div class="column">
+                            <div class="slidecontainer">
+                                <input type="range" min="0" max="2000000" value="0" step="100000" class="slider" id="amount">
+                            </div>
+                        </div>
+                        <div class="column" style="width:35%;height:4%">
+                            <div class="p-3 mb-2 bg-dark text-white" >
+                              <div class="notification is-primary has-text">
+                                <p class="title">Amount: <span id="demo1"></span></p>
+                              </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br>
+                    <label for="itr">I m looking at an interest rate of :</label>
+                    <div class="row">
+                        <div class="column">
+                            <div class="slidecontainer">
+                                <input type="range" min="0" max="20" value="0" step="0.1" class="slider" id="interest">
+                            </div>
+                        </div>
+                        <div class="column" style="width:35%;height:4%">
+                            <div class="p-3 mb-2 bg-dark text-white" >
+                              <div class="notification is-info has-text">
+                                <p class="title">Interest Rate: <span id="demo2"></span></p>
+                              </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+
+
+                    <label for="year">plan to repay the loan amount in Year</label>
+                    <div class="row">
+                        <div class="column">
+                            <div class="slidecontainer">
+                                <input type="range" min="0" max="30" value="0" class="slider" id="year">
+                            </div>
+                        </div>
+                        <div class="column" style="width:35%;height:4%">
+                                <div class="p-3 mb-2 bg-dark text-white">
+                              <div class="notification is-warning has-text">
+                                <p class="title">Years: <span id="demo3"></span></p>
+                              </div>
+                        </div>
+                        </div>
+                    </div>
+
+
+
+                    <br><br>
+
+                      <br><br>
+
+                      <div class="control">
+                        <center><button class="btn btn-success">Calculate</button></center>
+                      </div>
+
+
+                      <!-- RESULTS -->
+                      <section class="section" style="width:1500px;height:20px">
+                        <h1 class="title">Results</h1>
+                        <div class="columns is-multiline">
+
+                          <div class="p-3 mb-2 bg-dark text-white">
+                            <div class="notification is-primary has-text">
+                              <p id="monthlyPayment" class="title is-1">₹ </p>
+                              <p class="subtitle is-4">Monthly EMI</p>
+                            </div>
+                          </div>
+
+                          <div class="p-3 mb-2 bg-dark text-white">
+                            <div class="notification is-info has-text">
+                              <p id="totalInterest" class="title is-1">₹</p>
+                              <p class="subtitle is-4">Total Interest</p>
+                            </div>
+                          </div>
+
+                          <div class="p-3 mb-2 bg-dark text-white">
+                            <div class="notification is-warning has-text">
+                              <p id="totalPayment" class="title is-1">₹ </p>
+                              <p class="subtitle is-4">Total Amount</p>
+                            </div>
+                          </div>
+
+                        </div>
+                      </section>
+
+                </form>
+            </div>
+
+
+            <script>
+                var amt_slider1 = document.getElementById("amount");
+                var itr_slider2 = document.getElementById("interest");
+                var year_slider3 = document.getElementById("year");
+                var output1 = document.getElementById("demo1");
+                var output2 = document.getElementById("demo2");
+                var output3 = document.getElementById("demo3");
+
+                output1.innerHTML = amt_slider1.value;
+                output2.innerHTML = itr_slider2.value;
+                output3.innerHTML = year_slider3.value;
+
+                amt_slider1.oninput = function() {
+                  output1.innerHTML = this.value;
+                }
+
+                itr_slider2.oninput = function() {
+                  output2.innerHTML = this.value;
+                }
+
+                year_slider3.oninput = function() {
+                  output3.innerHTML = this.value;
+
+                }
+                document.getElementById("loan-form").addEventListener("submit", computeResults);
+
+                function computeResults(e) {
+
+                  const UIamount = amt_slider1.value;
+                  const UIinterest = itr_slider2.value;
+                  const UIyears = year_slider3.value;
+
+                  const principal = Number(UIamount);
+                  const CalculateInterest = Number(UIinterest) / 100 / 12;
+                  const calculatedPayments = Number(UIyears) * 12;
+
+                  //Compute monthly Payment
+
+                  const x = Math.pow(1 + CalculateInterest, calculatedPayments);
+                  const monthly = (principal * x * CalculateInterest) / (x - 1);
+                  const monthlyPayment = monthly.toFixed(2);
+
+                  //Compute Interest
+
+                  const totalInterest = (monthly * calculatedPayments - principal).toFixed(2);
+
+                  //Compute Total Payment
+
+                  const totalPayment = (monthly * calculatedPayments).toFixed(2);
+
+                  //Show results
+
+                  document.getElementById("monthlyPayment").innerHTML = "₹ " + monthlyPayment;
+
+                  document.getElementById("totalInterest").innerHTML = "₹ " + totalInterest;
+
+                  document.getElementById("totalPayment").innerHTML = "₹ " + totalPayment;
+                    e.preventDefault();
+                }
+            </script>
+
+        </div>
+    </div>
+
+{% endblock %}

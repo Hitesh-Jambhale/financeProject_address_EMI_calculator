@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>Show-Address</title>
+{% endblock %}
+
+{% block content %}
+<div class="container" >
+    <table class="table table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Flat No</th>
+            <th>Street Name</th>
+            <th>City</th>
+            <th>Pincode</th>
+            <th>Area</th>
+            <th>Landmark</th>
+            <th>District</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+        {% for x in paddr %}
+            <tr>
+                <td>{{x.id}}</td>
+                <td>{{x.flat_no}}</td>
+                <td>{{x.street_name}}</td>
+                <td>{{x.city}}</td>
+                <td>{{x.pincode}}</td>
+                <td>{{x.area}}</td>
+                <td>{{x.landmark}}</td>
+                <td>{{x.district}}</td>
+                <td>{{x.state}}</td>
+                <td>{{x.country}}</td>
+                <td><a href="{% url 'update' x.id %}"><button class="btn btn-warning">Update</button></a></td>
+                <td><a href="{% url 'delete' x.id %}"><button class="btn btn-danger">Delete</button></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br><br><br><br>
+
+    <table class="table table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Flat No</th>
+            <th>Street Name</th>
+            <th>City</th>
+            <th>Pincode</th>
+            <th>Area</th>
+            <th>Landmark</th>
+            <th>District</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+        {% for x in caddr %}
+            <tr>
+                <td>{{x.id}}</td>
+                <td>{{x.Cflat_no}}</td>
+                <td>{{x.Cstreet_name}}</td>
+                <td>{{x.Ccity}}</td>
+                <td>{{x.Cpincode}}</td>
+                <td>{{x.Carea}}</td>
+                <td>{{x.Clandmark}}</td>
+                <td>{{x.Cdistrict}}</td>
+                <td>{{x.Cstate}}</td>
+                <td>{{x.Ccountry}}</td>
+                <td><a href="{% url 'update' x.id %}"><button class="btn btn-warning">Update</button></a></td>
+                <td><a href="{% url 'delete' x.id %}"><button class="btn btn-danger">Delete</button></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
