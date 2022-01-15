@@ -48,6 +48,7 @@ function computeResults(e) {
   const totalPayment = (monthly * calculatedPayments).toFixed(2);
 
   //Show results
+  //Hitesh
 
   document.getElementById("monthlyPayment").innerHTML = "₹ " + monthlyPayment;
 
